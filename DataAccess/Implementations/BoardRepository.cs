@@ -19,10 +19,15 @@ namespace DataAccess.Implementations
             return _inMemoryDatabase.BoardsData[boardId];
         }
 
-        public void Reset(string boardId)
+        public bool Reset(string boardId)
         {
             if (_inMemoryDatabase.BoardsData.ContainsKey(boardId))
+            {
                 _inMemoryDatabase.BoardsData.Remove(boardId);
+                return true;
+            }
+
+            return false;
         }
 
         public void SetMove(string boardId, Turn turn)

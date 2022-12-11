@@ -8,7 +8,7 @@ namespace DataAccess
 
 		StateModel GetState(string boardId);
 
-        void Reset(string boardId);
+        bool Reset(string boardId);
     }
 }
 

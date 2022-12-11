@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Common.Models;
 using DataAccess;
+using System.Net;
 
 namespace TicTacToeMultivarse.Controllers;
 
@@ -16,11 +17,11 @@ public class BoardController : ControllerBase
     }
 
     [HttpPost("turn")]
-    public ActionResult Turn([FromBody] TurnDtoModel model)
+    public HttpStatusCode Turn([FromBody] TurnDtoModel model)
     {
         _boardRepository.SetMove(model.BoardId, model);
 
-        return Ok(201);
+        return HttpStatusCode.Created;
     }
 
     [HttpGet("state/{boardId}")]
@@ -32,11 +33,11 @@ public class BoardController : ControllerBase
     }
 
     [HttpDelete("reset/{boardId}")]
-    public ActionResult<StateModel> Reset([FromRoute] string boardId)
+    public HttpStatusCode Reset([FromRoute] string boardId)
     {
-        var state = _boardRepository.GetState(boardId);
-
-        return Ok(state);
+        return _boardRepository.Reset(boardId)
+            ? HttpStatusCode.Accepted
+            : HttpStatusCode.BadRequest;
     }
 }
 
