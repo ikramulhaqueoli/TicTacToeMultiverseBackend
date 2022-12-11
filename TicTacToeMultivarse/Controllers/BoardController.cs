@@ -5,7 +5,7 @@ using DataAccess;
 namespace TicTacToeMultivarse.Controllers;
 
 [ApiController]
-[Route("[controller]/api")]
+[Route("api/[controller]")]
 public class BoardController : ControllerBase
 {
     private readonly IBoardRepository _boardRepository;
