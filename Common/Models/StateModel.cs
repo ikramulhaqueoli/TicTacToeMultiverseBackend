@@ -6,7 +6,6 @@
 		{
 			BoardId = boardId;
             Turns = new List<Turn>();
-
         }
 		
 		public string? BoardId { get; set; }
