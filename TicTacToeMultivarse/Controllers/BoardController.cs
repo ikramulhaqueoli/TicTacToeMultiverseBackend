@@ -5,7 +5,7 @@ using DataAccess;
 namespace TicTacToeMultivarse.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/board")]
 public class BoardController : ControllerBase
 {
     private readonly IBoardRepository _boardRepository;
@@ -23,7 +23,7 @@ public class BoardController : ControllerBase
         return Ok(201);
     }
 
-    [HttpGet("state")]
+    [HttpGet("state/{boardId}")]
     public ActionResult<StateModel> State([FromRoute] string boardId)
     {
         var state = _boardRepository.GetState(boardId);
