@@ -30,5 +30,13 @@ public class BoardController : ControllerBase
 
         return Ok(state);
     }
+
+    [HttpGet("reset/{boardId}")]
+    public ActionResult<StateModel> Reset([FromRoute] string boardId)
+    {
+        var state = _boardRepository.GetState(boardId);
+
+        return Ok(state);
+    }
 }
 

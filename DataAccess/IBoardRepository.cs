@@ -7,6 +7,8 @@ namespace DataAccess
 		void SetMove(string boardId, Turn turn);
 
 		StateModel GetState(string boardId);
-	}
+
+        void Reset(string boardId);
+    }
 }
 
