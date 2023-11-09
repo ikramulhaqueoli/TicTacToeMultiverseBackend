@@ -70,6 +70,7 @@
           "bookingInfos" : {
             "type" : "array",
             "items" : {
+              "required" : ["bookingId", "bookingStartDate"],
               "type" : "object",
               "properties" : {
                 "bookingEndDate" : {
@@ -78,8 +79,7 @@
                 },
                 "bookingId" : {
                   "type" : "integer",
-                  "format" : "int64",
-                  "required" : true
+                  "format" : "int64"
                 },
                 "bookingPhase" : {
                   "type" : "string",
