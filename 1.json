@@ -151,7 +151,7 @@
         }
       },
       "TripInfo" : {
-        "required" : [ "bookingIds", "endDate", "namingPortions", "startDate", "status" ],
+        "required" : [ "namingPortions" ],
         "type" : "object",
         "properties" : {
           "bookingIds" : {
