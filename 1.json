@@ -66,7 +66,6 @@
   "components" : {
     "schemas" : {
       "BookingInfo" : {
-        "required" : [ "bookingEndDate", "bookingId", "bookingPhase", "bookingStartDate", "geo", "productType" ],
         "type" : "object",
         "properties" : {
           "bookingEndDate" : {
