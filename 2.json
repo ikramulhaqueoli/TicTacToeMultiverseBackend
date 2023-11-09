@@ -1,0 +1,225 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "trip-api",
+    "version" : "latest"
+  },
+  "servers" : [ {
+    "url" : "/"
+  } ],
+  "tags" : [ ],
+  "paths" : {
+    "/api/getTrips" : {
+      "post" : {
+        "tags" : [ "TripApi" ],
+        "description" : "getTrips",
+        "parameters" : [ ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/GetTripsRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetTripsResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid Request Body",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BaseResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Unhandled Exception Thrown",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BaseResponse"
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "BookingInfo" : {
+        "required" : [ "bookingEndDate", "bookingId", "bookingStartDate", "geo" ],
+        "type" : "object",
+        "properties" : {
+          "bookingEndDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "bookingId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "bookingPhase" : {
+            "$ref" : "#/components/schemas/BookingPhase"
+          },
+          "bookingStartDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "flightSlices" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/FlightSlice"
+            }
+          },
+          "geo" : {
+            "$ref" : "#/components/schemas/Geo"
+          },
+          "productType" : {
+            "$ref" : "#/components/schemas/ProductType"
+          }
+        }
+      },
+      "BookingPhase" : {
+        "type" : "string",
+        "enum" : [ "Upcoming", "Completed", "Cancelled" ]
+      },
+      "City" : {
+        "required" : [ "cityId", "cityName" ],
+        "type" : "object",
+        "properties" : {
+          "cityId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "cityName" : {
+            "type" : "string"
+          }
+        }
+      },
+      "FlightSlice" : {
+        "required" : [ "destinationCity", "originCity" ],
+        "type" : "object",
+        "properties" : {
+          "destinationCity" : {
+            "$ref" : "#/components/schemas/City"
+          },
+          "originCity" : {
+            "$ref" : "#/components/schemas/City"
+          }
+        }
+      },
+      "Geo" : {
+        "required" : [ "start" ],
+        "type" : "object",
+        "properties" : {
+          "end" : {
+            "$ref" : "#/components/schemas/City"
+          },
+          "start" : {
+            "$ref" : "#/components/schemas/City"
+          }
+        }
+      },
+      "ProductType" : {
+        "type" : "string",
+        "enum" : [ "Hotel", "Flights", "Activity" ]
+      },
+      "GetTripsRequest" : {
+        "required" : [ "bookingInfos" ],
+        "type" : "object",
+        "properties" : {
+          "bookingInfos" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/BookingInfo"
+            }
+          }
+        }
+      },
+      "TripInfo" : {
+        "required" : [ "bookingIds", "endDate", "namingPortions", "startDate" ],
+        "type" : "object",
+        "properties" : {
+          "bookingIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          },
+          "endDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "namingPortions" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "startDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/TripStatus"
+          }
+        }
+      },
+      "TripStatus" : {
+        "type" : "string",
+        "enum" : [ "Upcoming", "Active", "Completed" ]
+      },
+      "GetTripsResponse" : {
+        "required" : [ "success" ],
+        "type" : "object",
+        "properties" : {
+          "errorMessage" : {
+            "type" : "string"
+          },
+          "success" : {
+            "type" : "boolean"
+          },
+          "tripInfos" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TripInfo"
+            }
+          }
+        }
+      },
+      "BaseResponse" : {
+        "required" : [ "success" ],
+        "type" : "object",
+        "properties" : {
+          "errorMessage" : {
+            "type" : "string"
+          },
+          "success" : {
+            "type" : "boolean"
+          }
+        }
+      }
+    },
+    "examples" : { }
+  }
+}
