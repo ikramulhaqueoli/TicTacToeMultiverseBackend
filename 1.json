@@ -1,0 +1,220 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "trip-api",
+    "version" : "latest"
+  },
+  "servers" : [ {
+    "url" : "/"
+  } ],
+  "tags" : [ ],
+  "paths" : {
+    "/api/getTrips" : {
+      "post" : {
+        "tags" : [ "TripApi" ],
+        "description" : "getTrips",
+        "parameters" : [ ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/GetTripsRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetTripsResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid Request Body",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BaseResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Unhandled Exception Thrown",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BaseResponse"
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "GetTripsRequest" : {
+        "type" : "object",
+        "properties" : {
+          "bookingInfos" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "bookingEndDate" : {
+                  "type" : "string",
+                  "format" : "date-time"
+                },
+                "bookingId" : {
+                  "type" : "integer",
+                  "format" : "int64",
+                  "required" : true
+                },
+                "bookingPhase" : {
+                  "type" : "string",
+                  "enum" : [ "Upcoming", "Completed", "Cancelled" ]
+                },
+                "bookingStartDate" : {
+                  "type" : "string",
+                  "format" : "date-time"
+                },
+                "flightSlices" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "destinationCity" : {
+                        "type" : "object",
+                        "properties" : {
+                          "cityId" : {
+                            "type" : "integer",
+                            "format" : "int64"
+                          },
+                          "cityName" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "originCity" : {
+                        "type" : "object",
+                        "properties" : {
+                          "cityId" : {
+                            "type" : "integer",
+                            "format" : "int64"
+                          },
+                          "cityName" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "geo" : {
+                  "type" : "object",
+                  "properties" : {
+                    "end" : {
+                      "type" : "object",
+                      "properties" : {
+                        "cityId" : {
+                          "type" : "integer",
+                          "format" : "int64"
+                        },
+                        "cityName" : {
+                          "type" : "string"
+                        }
+                      }
+                    },
+                    "start" : {
+                      "type" : "object",
+                      "properties" : {
+                        "cityId" : {
+                          "type" : "integer",
+                          "format" : "int64"
+                        },
+                        "cityName" : {
+                          "type" : "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "productType" : {
+                  "type" : "string",
+                  "enum" : [ "Hotel", "Flights", "Activity" ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "GetTripsResponse" : {
+        "type" : "object",
+        "properties" : {
+          "errorMessage" : {
+            "type" : "string"
+          },
+          "success" : {
+            "type" : "boolean"
+          },
+          "tripInfos" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "bookingIds" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "integer",
+                    "format" : "int64"
+                  }
+                },
+                "endDate" : {
+                  "type" : "string",
+                  "format" : "date-time"
+                },
+                "namingPortions" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string"
+                  }
+                },
+                "startDate" : {
+                  "type" : "string",
+                  "format" : "date-time"
+                },
+                "status" : {
+                  "type" : "string",
+                  "enum" : [ "Upcoming", "Active", "Completed" ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "BaseResponse" : {
+        "type" : "object",
+        "properties" : {
+          "errorMessage" : {
+            "type" : "string"
+          },
+          "success" : {
+            "type" : "boolean"
+          }
+        }
+      }
+    },
+    "examples" : { }
+  }
+}
