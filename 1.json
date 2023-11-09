@@ -21,7 +21,8 @@
                 "$ref" : "#/components/schemas/GetTripsRequest"
               }
             }
-          }
+          },
+          "required" : true
         },
         "responses" : {
           "200" : {
@@ -64,100 +65,124 @@
   },
   "components" : {
     "schemas" : {
+      "BookingInfo" : {
+        "type" : "object",
+        "properties" : {
+          "bookingEndDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "bookingId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "bookingPhase" : {
+            "$ref" : "#/components/schemas/BookingPhase"
+          },
+          "bookingStartDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "flightSlices" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/FlightSlice"
+            }
+          },
+          "geo" : {
+            "$ref" : "#/components/schemas/Geo"
+          },
+          "productType" : {
+            "$ref" : "#/components/schemas/ProductType"
+          }
+        }
+      },
+      "BookingPhase" : {
+        "type" : "string",
+        "enum" : [ "Upcoming", "Completed", "Cancelled" ]
+      },
+      "City" : {
+        "type" : "object",
+        "properties" : {
+          "cityId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "cityName" : {
+            "type" : "string"
+          }
+        }
+      },
+      "FlightSlice" : {
+        "type" : "object",
+        "properties" : {
+          "destinationCity" : {
+            "$ref" : "#/components/schemas/City"
+          },
+          "originCity" : {
+            "$ref" : "#/components/schemas/City"
+          }
+        }
+      },
+      "Geo" : {
+        "type" : "object",
+        "properties" : {
+          "end" : {
+            "$ref" : "#/components/schemas/City"
+          },
+          "start" : {
+            "$ref" : "#/components/schemas/City"
+          }
+        }
+      },
+      "ProductType" : {
+        "type" : "string",
+        "enum" : [ "Hotel", "Flights", "Activity" ]
+      },
       "GetTripsRequest" : {
         "type" : "object",
         "properties" : {
           "bookingInfos" : {
             "type" : "array",
             "items" : {
-              "required" : ["bookingId", "bookingStartDate"],
-              "type" : "object",
-              "properties" : {
-                "bookingEndDate" : {
-                  "type" : "string",
-                  "format" : "date-time"
-                },
-                "bookingId" : {
-                  "type" : "integer",
-                  "format" : "int64"
-                },
-                "bookingPhase" : {
-                  "type" : "string",
-                  "enum" : [ "Upcoming", "Completed", "Cancelled" ]
-                },
-                "bookingStartDate" : {
-                  "type" : "string",
-                  "format" : "date-time"
-                },
-                "flightSlices" : {
-                  "type" : "array",
-                  "items" : {
-                    "type" : "object",
-                    "properties" : {
-                      "destinationCity" : {
-                        "type" : "object",
-                        "properties" : {
-                          "cityId" : {
-                            "type" : "integer",
-                            "format" : "int64"
-                          },
-                          "cityName" : {
-                            "type" : "string"
-                          }
-                        }
-                      },
-                      "originCity" : {
-                        "type" : "object",
-                        "properties" : {
-                          "cityId" : {
-                            "type" : "integer",
-                            "format" : "int64"
-                          },
-                          "cityName" : {
-                            "type" : "string"
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "geo" : {
-                  "type" : "object",
-                  "properties" : {
-                    "end" : {
-                      "type" : "object",
-                      "properties" : {
-                        "cityId" : {
-                          "type" : "integer",
-                          "format" : "int64"
-                        },
-                        "cityName" : {
-                          "type" : "string"
-                        }
-                      }
-                    },
-                    "start" : {
-                      "type" : "object",
-                      "properties" : {
-                        "cityId" : {
-                          "type" : "integer",
-                          "format" : "int64"
-                        },
-                        "cityName" : {
-                          "type" : "string"
-                        }
-                      }
-                    }
-                  }
-                },
-                "productType" : {
-                  "type" : "string",
-                  "enum" : [ "Hotel", "Flights", "Activity" ]
-                }
-              }
+              "$ref" : "#/components/schemas/BookingInfo"
             }
           }
         }
+      },
+      "TripInfo" : {
+        "required" : [ "namingPortions" ],
+        "type" : "object",
+        "properties" : {
+          "bookingIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          },
+          "endDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "namingPortions" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "startDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/TripStatus"
+          }
+        }
+      },
+      "TripStatus" : {
+        "type" : "string",
+        "enum" : [ "Upcoming", "Active", "Completed" ]
       },
       "GetTripsResponse" : {
         "type" : "object",
@@ -171,34 +196,7 @@
           "tripInfos" : {
             "type" : "array",
             "items" : {
-              "type" : "object",
-              "properties" : {
-                "bookingIds" : {
-                  "type" : "array",
-                  "items" : {
-                    "type" : "integer",
-                    "format" : "int64"
-                  }
-                },
-                "endDate" : {
-                  "type" : "string",
-                  "format" : "date-time"
-                },
-                "namingPortions" : {
-                  "type" : "array",
-                  "items" : {
-                    "type" : "string"
-                  }
-                },
-                "startDate" : {
-                  "type" : "string",
-                  "format" : "date-time"
-                },
-                "status" : {
-                  "type" : "string",
-                  "enum" : [ "Upcoming", "Active", "Completed" ]
-                }
-              }
+              "$ref" : "#/components/schemas/TripInfo"
             }
           }
         }
