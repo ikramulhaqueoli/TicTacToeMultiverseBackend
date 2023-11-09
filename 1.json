@@ -21,8 +21,7 @@
                 "$ref" : "#/components/schemas/GetTripsRequest"
               }
             }
-          },
-          "required" : true
+          }
         },
         "responses" : {
           "200" : {
