@@ -151,7 +151,6 @@
         }
       },
       "TripInfo" : {
-        "required" : [ "namingPortions" ],
         "type" : "object",
         "properties" : {
           "bookingIds" : {
